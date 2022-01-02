@@ -1,0 +1,66 @@
+{
+  // 创建者 默认无名氏，如：小明 xm
+  "creator": "noname",
+  // 项目所属，如： 北京 bj
+  "scope": "orphan",
+  // 属性名 特定标识的属性
+  "property": "Setup",
+  // 打包的次数，每次打包完成后会在此基础上加1
+  "times": 1,
+  // development环境下的格式化字符串
+  // 可引用如下字段：
+  // name：项目名称，来源于package.json 
+  // version：项目版本号，来源于package.json 
+  // property：属性名，来源自定义属性配置
+  // scope：项目所属，来源自定义属性配置
+  // creator：创建者，来源自定义属性配置
+  // times：打包的次数，来源自定义属性配置
+  "format-development": "{name} {property} {version}-{scope}-{creator}-{times}",
+  // production环境下的格式化字符串
+  // name：项目名称，来源于package.json 
+  // version：项目版本号，来源于package.json 
+  // property：属性名，来源自定义属性配置
+  // scope：项目所属，来源自定义属性配置
+  // creator：创建者，来源自定义属性配置
+  // times：打包的次数，来源自定义属性配置
+  "format-production": "{name} {property} {version}",
+  // 打包后根据changelog所生成的markdown文件的名称
+  "mdFileName": "CHANGELOG.md",
+  // 打包后根据changelog所生成的word文件的名称
+  "wordFileName": "changelogWord.doc",
+  // changelog配置信息 用于提供服务器对changelog记录的能力
+  // 不配置则表示不需要服务器功能
+  // 服务器需要支持restful接口
+  // 提供 read/create/append/backup/delete/clear 接口功能
+  "changelogConfig": {
+    // 服务器注册地址
+    // "register": "localhost:3000",
+    // 服务器接口访问秘钥
+    // "secretKey": "123456"
+  },
+  // 发布配置
+  // 不配置则表示不需要发布功能
+  // 用于保存安装包
+  // 程序会根据配置信息进行自动上传
+  // 使用ftp协议，暂时只支持用户名/密码模式，不支持ssh等免密登陆
+  "publishConfig": {
+    // 地址
+    // "host": "127.0.0.1",
+    // 端口
+    // "port": 21,
+    // 登录名
+    // "username": "jy12346",
+    // 密码
+    // "password": "123456",
+    // 存放的地址
+    // "rootPath": "/some/dir"
+  },
+  // 完成packaged之后的的配置
+  "doneConfig": {
+    // 完成之后进行打印的内容
+    // 可引用下列字段：
+    // packagedZipFilename: 打包后的zip文件的名称
+    // changelogMsg: 打包时书写的changelog msg
+    "console": "荣昌{packagedZipFilename}版本文件已上传!！\r\n修改如下(详细内容请查阅压缩包内文档描述)：\r\n{changelogMsg}"
+  }
+}
