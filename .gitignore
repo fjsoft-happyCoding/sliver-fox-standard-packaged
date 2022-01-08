@@ -1,9 +1,9 @@
-/node_modules
+/**/node_modules
 .history
 .vscode
-/build
+/**/build
+/**/demo
 /packaged
 /packaged.json
-/test.js
-/src
+/**/test.js
 yarn-error.log

@@ -90,20 +90,22 @@ async function changelog({ options }: { options: IChangelogOptions }) {
       },
     };
 
+    let config: IConfig | null = null;
+
     // 处理配置文件
     if (options.config) {
-      const config = createConfig(path.join(process.cwd(), options.config));
+      config = createConfig(path.join(process.cwd(), options.config));
       serviceCommonConfig = handleOptionsMergeConfig(
-        config,
+        config as IConfig,
         serviceCommonConfig
       );
     }
 
     const currentConfig: TServiceCommonConfig &
       Pick<IConfig, "version" | "format"> = {
+      version: (config as IConfig).version,
+      format: (config as IConfig).format,
       ...serviceCommonConfig,
-      version: "",
-      format: "",
     };
 
     // 字段验证
@@ -113,6 +115,7 @@ async function changelog({ options }: { options: IChangelogOptions }) {
     let content = "";
     if ("append" in options) {
       content = await createMsg(
+        currentConfig.version,
         getDefaultMsg(currentConfig.version, currentConfig.format)
       );
       fieldsValidate(currentConfig, createChangelog.configFields);

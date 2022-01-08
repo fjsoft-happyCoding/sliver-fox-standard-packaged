@@ -1,0 +1,18 @@
+{
+  "name": "@fjsoft/vue-cli-plugin-standard-build",
+  "version": "0.0.8",
+  "description": "provide a standard build app with electron-builder",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "pub": "npm publish --access public"
+  },
+  "dependencies": {
+    "@fjsoft/sliver-fox-standard-packaged": "~0.0.1"
+  } 
+}

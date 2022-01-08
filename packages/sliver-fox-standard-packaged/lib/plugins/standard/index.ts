@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-19 00:23:53
- * @LastEditTime: 2021-12-30 22:46:46
+ * @LastEditTime: 2022-01-08 18:02:06
  * @LastEditors: RGXMG
  * @Description:
  */
@@ -32,6 +32,8 @@ interface IOptions {
   files: Array<string>;
   // 输出的目录
   outDir: string;
+  // 是否发布 默认为false
+  noPublish?: Boolean;
 }
 
 interface IPackagedInfo {
@@ -77,50 +79,60 @@ export default class SliverFoxStandardPackaged {
     this.argumentValidate();
   }
 
+  async onBeforeRunHooks() {
+    let success = false;
+    // 检查版本号
+    success = await this.checkVersion();
+    if (!success) process.exit();
+    // 初始化
+    this.initial();
+
+    // 生成changelog
+    success = await this.generatorChangelog();
+
+    if (!success) process.exit();
+  }
+
+  async onSliverFoxDoneHooks() {
+    try {
+      let success = false;
+      console.log(chalk.green("\r\n开始处理打包文件："));
+      success = await this.startPackaged();
+      if (!success) throw new Error();
+
+      // 已打包完成就应该更新打包次数
+      updateLocalConfigTimes(this.config as IConfig);
+
+      // 确认发布才进行上传
+      if (!this.options.noPublish) {
+        console.log(chalk.green("\r\n开始处理发布文件："));
+        success = await this.startPublish();
+        if (!success) throw new Error();
+
+        console.log(chalk.green("已发布！"));
+        // 打包完成
+        this.onPackagedDone();
+      } else {
+        console.log(chalk.green("已处理！"));
+      }
+
+      process.exit();
+    } catch (error: any) {
+      error.message && console.log(error);
+      process.exit();
+    }
+  }
+
   apply(compiler) {
     compiler.hooks.beforeRun.tapAsync(
       "SliverFoxBeforeRun",
       async (_, callback) => {
-        let success = false;
-
-        // 检查版本号
-        success = await this.checkVersion();
-        if (!success) process.exit();
-
-        // 初始化
-        this.initial();
-
-        // 生成changelog
-        success = await this.generatorChangelog();
-        if (!success) process.exit();
+        await this.onBeforeRunHooks();
         callback();
       }
     );
     compiler.hooks.done.tap("SliverFoxDone", () => {
-      setTimeout(async () => {
-        try {
-          let success = false;
-          console.log(chalk.green("开始处理打包文件："));
-          success = await this.startPackaged();
-          if (!success) throw new Error();
-
-          // 已打包完成就应该更新打包次数
-          updateLocalConfigTimes(this.config as IConfig);
-
-          console.log(chalk.green("开始处理发布文件："));
-          success = await this.startPublish();
-          if (!success) throw new Error();
-
-          console.log(chalk.green("已发布！"));
-
-          // 打包完成
-          this.onPackagedDone();
-          process.exit();
-        } catch (error: any) {
-          error.message && console.log(error);
-          process.exit();
-        }
-      });
+      this.onSliverFoxDoneHooks();
     });
   }
 
@@ -188,7 +200,7 @@ export default class SliverFoxStandardPackaged {
       // 复制文件
       for (const f of files) {
         if (fs.statSync(f).isDirectory()) continue;
-        fs.copyFileSync(
+        fs.moveSync(
           f,
           path.join(
             (this.packagedInfo as IPackagedInfo).packagedPath,
@@ -275,7 +287,7 @@ export default class SliverFoxStandardPackaged {
       const content = await createChangelog(this.config as IConfig, msg);
       const changelogMdPath = path.join(
         (this.packagedInfo as IPackagedInfo).packagedPath,
-        "changelog.md"
+        (this.config as IConfig).mdFilename || "changelog.md"
       );
 
       // 生成文件之前 删除文件夹
@@ -287,7 +299,7 @@ export default class SliverFoxStandardPackaged {
       // 生成word文件
       writeHtmlContent2Doc(
         convertMd2Html(content),
-        (this.config as IConfig).wordFilename || "changelog",
+        (this.config as IConfig).wordFilename || "changelog.doc",
         (this.packagedInfo as IPackagedInfo).packagedPath
       );
       return true;

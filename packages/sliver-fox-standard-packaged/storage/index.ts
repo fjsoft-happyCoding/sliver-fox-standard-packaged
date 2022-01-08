@@ -13,7 +13,7 @@ export default class Storage {
   // 文件路径
   private filePath: string;
   constructor(filename: string) {
-    this.filePath = path.join(process.cwd(), 'storage',`${filename}.json`);
+    this.filePath = path.join(__dirname, `${filename}.json`);
   }
 
   getItem(name) {

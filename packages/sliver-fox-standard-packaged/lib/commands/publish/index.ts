@@ -15,15 +15,16 @@ import { fieldsValidate } from "../../../utils/fieldsValidate";
 
 interface IPublishOptions {
   config: string;
+  packagejson: string;
   source: string;
   remote: string;
 }
 
 async function publish({ options }: { options: IPublishOptions }) {
   try {
-    const { source, config: configPath, remote } = options;
+    const { source, config: configPath, remote, packagejson: packagejsonPath } = options;
     // 创建配置文件
-    const config = createConfig(path.join(process.cwd(), configPath));
+    const config = createConfig(path.join(process.cwd(), configPath), path.join(process.cwd(), packagejsonPath));
 
     // 验证字段
     fieldsValidate(config, createPublish.configFields);

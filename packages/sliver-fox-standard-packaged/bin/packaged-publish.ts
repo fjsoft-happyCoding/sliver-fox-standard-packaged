@@ -13,6 +13,7 @@ import config from "../config/command";
 
 interface IPublishOptions {
   config: string;
+  packagejson: string;
   source: string;
   remote: string;
 }
@@ -22,6 +23,11 @@ program
     "--config <config>",
     "指定packaged配置文件的相对路径",
     config.configFilename
+  )
+  .requiredOption(
+    "--packagejson <packagejson>",
+    "指定package.json配置文件的相对路径",
+    'package.json'
   )
   .requiredOption("-s --source <source>", "指定需要发布的单文件的相对路径, 默认会将该文件发往远端路径{配置文件的rootPath}/{package.json中的version}/{path.basename(source)}下")
   .parse(process.argv);

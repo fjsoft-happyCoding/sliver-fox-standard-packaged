@@ -8,7 +8,8 @@
  */
 const fs = require("fs-extra");
 const path = require("path");
-const packJson = require("../package.json");
+const cwd = process.cwd();
+const packJson = require(path.join(cwd, "./package.json"));
 const reg = /[^ts]$/;
 
 function recurDir(copyFrom, copyTo, includeDir) {
@@ -44,4 +45,4 @@ function copyDir(createDir) {
   fs.ensureDir(createDir);
 }
 
-recurDir(process.cwd(), path.join(__dirname, "../build"), packJson.files);
+recurDir(cwd, path.join(cwd, "./build"), packJson.files);

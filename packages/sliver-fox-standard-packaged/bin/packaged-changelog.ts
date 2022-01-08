@@ -33,6 +33,10 @@ program
   )
   .parse(process.argv);
 
+
+// 默认NODE_ENV为production
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+
 changelog({
   options: program.opts<IChangelogOptions>(),
 });

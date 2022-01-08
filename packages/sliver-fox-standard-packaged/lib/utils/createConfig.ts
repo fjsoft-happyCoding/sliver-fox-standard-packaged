@@ -9,6 +9,7 @@
 
 import path from "path";
 import fs from "fs-extra";
+import chalk from "chalk";
 import hjson from "hjson";
 import { updateJsonFile, readJsonFile } from "../../utils/fileOperator";
 import { IConfig } from "../../types/config.d";
@@ -46,9 +47,15 @@ function handleFormatString(format: string, dataset: object) {
 /**
  * 获取配置信息
  */
-function createConfig(absolutePath: string = localPackagedPath): IConfig {
+function createConfig(absolutePath: string = localPackagedPath, packagejsonAbsolutedPath: string  = packJsonPath): IConfig {
   // package.json配置
-  const packageJson = readJsonFile(packJsonPath);
+  let packageJson: any = "";
+  try {
+    packageJson = readJsonFile(packagejsonAbsolutedPath);
+  } catch(e: any) {
+    console.log(chalk.red("packaged error: failed to load package.json file, please check this file!"));
+    throw new Error(e.message);
+  }
   const nodeEnv = process.env.NODE_ENV;
   let config: IConfig = {
     ...defaultConfig,

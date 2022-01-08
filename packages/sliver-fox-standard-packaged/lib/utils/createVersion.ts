@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-15 17:16:09
- * @LastEditTime: 2021-12-30 21:39:27
+ * @LastEditTime: 2022-01-04 21:03:29
  * @LastEditors: RGXMG
  * @Description: 获取版本
  */
@@ -68,7 +68,7 @@ createNewVersion.configFields = ["version"];
  * @param {*} config
  */
 function createVersionSymbol(config: IConfig) {
-  return `${config.version} ${
+  return `${config.name} v${config.version} ${
     config.isProduction ? "Release" : "Chunk Test"
   } Version (${getDate()})`;
 }
