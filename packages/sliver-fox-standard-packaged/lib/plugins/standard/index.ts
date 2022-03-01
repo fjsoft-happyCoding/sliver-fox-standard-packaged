@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-19 00:23:53
- * @LastEditTime: 2022-01-08 18:02:06
+ * @LastEditTime: 2022-03-01 23:07:35
  * @LastEditors: RGXMG
  * @Description:
  */
@@ -17,6 +17,7 @@ import {
   createVersionSymbol,
   createNewVersion,
   updatePackageJsonVersion,
+  getPackageJsonVersion,
 } from "../../utils/createVersion";
 import { createChangelog } from "../../utils/createChangelog";
 import { IConfig, IPrivateConfig, IPublishConfig } from "../../../types/config";
@@ -254,8 +255,13 @@ export default class SliverFoxStandardPackaged {
    */
   async checkVersion(): Promise<boolean> {
     try {
+      const currentPackageJsonVersion = getPackageJsonVersion();
       // 创建版本
-      const version = await createNewVersion();
+      const version = await createNewVersion(currentPackageJsonVersion);
+      // 版本号变更需要变更time次数
+      if (version !== currentPackageJsonVersion) {
+        updateLocalConfigTimes({} as IConfig, true);
+      }
       // 更新版本号到文件中
       updatePackageJsonVersion(version);
       return true;
@@ -274,7 +280,7 @@ export default class SliverFoxStandardPackaged {
       // 获取changelog的msg
       const msg = await createMsg(
         (this.config as IConfig).version,
-        getDefaultMsg(
+        await getDefaultMsg(
           (this.config as IConfig).version,
           createVersionSymbol(this.config as IConfig)
         )

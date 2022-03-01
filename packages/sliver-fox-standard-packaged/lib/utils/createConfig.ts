@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-15 17:19:47
- * @LastEditTime: 2021-12-30 22:44:44
+ * @LastEditTime: 2022-03-01 23:07:38
  * @LastEditors: RGXMG
  * @Description: 获取配置信息
  */
@@ -87,13 +87,15 @@ function createConfig(absolutePath: string = localPackagedPath, packagejsonAbsol
  * 更新本地config的times
  * @returns
  */
-function updateLocalConfigTimes(config: IConfig) {
+function updateLocalConfigTimes(config: IConfig, initial = false) {
   try {
     updateJsonFile(localPackagedPath, (d: any) => {
-      d.times = config.isProduction ? 1 : Number(d.times) + 1;
+      d.times = config.isProduction || initial ? 1 : Number(d.times) + 1;
       return d;
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export { createConfig, updateLocalConfigTimes, parseConfig };

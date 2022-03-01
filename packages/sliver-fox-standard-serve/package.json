@@ -1,0 +1,25 @@
+{
+  "name": "sliver-fox-standard-serve",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/types": "^7.16.8",
+    "@originjs/vite-plugin-require-context": "^1.0.9",
+    "@types/babel__core": "^7.1.18",
+    "@types/node": "^17.0.13",
+    "jest": "^27.4.7",
+    "vite": "^2.7.13",
+    "vue-loader": "^15.9.8"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}

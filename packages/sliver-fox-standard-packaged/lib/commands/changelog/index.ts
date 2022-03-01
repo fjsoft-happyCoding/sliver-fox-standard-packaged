@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-18 23:49:42
- * @LastEditTime: 2021-12-30 22:22:21
+ * @LastEditTime: 2022-03-01 22:50:42
  * @LastEditors: RGXMG
  * @Description:
  */
@@ -116,7 +116,7 @@ async function changelog({ options }: { options: IChangelogOptions }) {
     if ("append" in options) {
       content = await createMsg(
         currentConfig.version,
-        getDefaultMsg(currentConfig.version, currentConfig.format)
+        await getDefaultMsg(currentConfig.version, currentConfig.format)
       );
       fieldsValidate(currentConfig, createChangelog.configFields);
       content = await createChangelog(currentConfig, content);

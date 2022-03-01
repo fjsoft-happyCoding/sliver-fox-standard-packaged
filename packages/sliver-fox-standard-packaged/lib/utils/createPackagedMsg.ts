@@ -2,13 +2,14 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-14 22:35:30
- * @LastEditTime: 2021-12-30 22:30:08
+ * @LastEditTime: 2022-03-01 23:11:19
  * @LastEditors: RGXMG
  * @Description: 获取打包信息
  */
 import inquirer from "inquirer";
 import fs from "fs-extra";
 import path from "path";
+import chalk from "chalk";
 import Storage from "../../storage";
 
 // 创建storage
@@ -49,15 +50,31 @@ function validateMsg(msg) {
  * 2. 读取本地默认msg
  * @param versionSymbol
  */
-function getDefaultMsg(version, versionSymbol) {
+async function getDefaultMsg(version, versionSymbol) {
   // 尝试根据version获取storage的msg内容
   let msg = "";
   if (version) {
     if (storage.getItem("version") === version) {
       msg = storage.getItem("msg");
-      if (msg.length > 10) return msg;
+      if (msg.length > 10) {
+        // 发布询问
+        const answer = await inquirer.prompt({
+          type: "confirm",
+          name: "question",
+          message: chalk.green(
+            `版本号${version}的msg信息已存在，是否复用？`
+          ),
+        });
+        // 复用
+        if (answer.question) {
+          let msgList = msg.split('\r\n');
+          msgList[0] = `##### ${versionSymbol}`;
+          return msgList.join('\r\n');
+        }
+      }
     }
   }
+
   // 获取当前打包的msg
   msg = fs
     .readFileSync(path.join(__dirname, "../../config/defaultMsg.md"), "utf-8")

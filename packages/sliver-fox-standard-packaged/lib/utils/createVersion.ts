@@ -74,4 +74,4 @@ function createVersionSymbol(config: IConfig) {
 }
 createVersionSymbol.configFields = ["version"];
 
-export { createVersionSymbol, createNewVersion, updatePackageJsonVersion };
+export { createVersionSymbol, createNewVersion, updatePackageJsonVersion, getPackageJsonVersion };

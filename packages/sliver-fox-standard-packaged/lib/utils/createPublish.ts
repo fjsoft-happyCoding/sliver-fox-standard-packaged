@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-19 20:17:33
- * @LastEditTime: 2021-12-30 22:41:11
+ * @LastEditTime: 2022-03-01 22:33:21
  * @LastEditors: RGXMG
  * @Description:
  */
@@ -114,6 +114,17 @@ async function publish(config: IConfig, filepath: string): Promise<boolean> {
     // 释放资源
     console.log("发布失败：", err);
     client?.close?.();
+
+    // 询问是否再次上传
+    const answer = await inquirer.prompt({
+      type: "confirm",
+      name: "question",
+      message: chalk.red(
+        '文件发布失败，是否再次尝试发布？'
+      ),
+    });
+    if (answer.question) return publish(config, filepath);
+
     return false;
   }
 }
