@@ -1,6 +1,6 @@
 {
   "name": "@fjsoft/sliver-fox-standard-packaged",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "",
   "main": "build/lib/index.js",
   "directories": {
