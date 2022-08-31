@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-19 00:23:53
- * @LastEditTime: 2022-03-01 23:07:35
+ * @LastEditTime: 2022-08-31 16:46:24
  * @LastEditors: RGXMG
  * @Description:
  */
@@ -28,13 +28,15 @@ import {
 } from "../../../utils/contentConvert";
 import { gZip } from "../../../utils/zip";
 
-interface IOptions {
+export interface IOptions {
   // 打包的文件位置 使用glob匹配
   files: Array<string>;
   // 输出的目录
   outDir: string;
   // 是否发布 默认为false
   noPublish?: Boolean;
+  // 配置文件路径
+  config?: string
 }
 
 interface IPackagedInfo {
@@ -140,7 +142,7 @@ export default class SliverFoxStandardPackaged {
   initial() {
     // 获取最新的packaged msg信息
     // 获取当前的配置信息以及版本号
-    (this.config as IConfig) = createConfig();
+    (this.config as IConfig) = createConfig(this.options.config);
     // 储存打包后相关信息
     (this.packagedInfo as IPackagedInfo) = {
       // 已打包相关资源存放的路径
