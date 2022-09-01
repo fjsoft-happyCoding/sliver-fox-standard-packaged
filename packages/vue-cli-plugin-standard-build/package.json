@@ -1,6 +1,6 @@
 {
   "name": "@fjsoft/vue-cli-plugin-standard-build",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "provide a standard build app with electron-builder",
   "main": "index.js",
   "files": [

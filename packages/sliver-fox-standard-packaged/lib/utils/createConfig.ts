@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-15 17:19:47
- * @LastEditTime: 2022-08-31 16:45:59
+ * @LastEditTime: 2022-09-01 15:04:40
  * @LastEditors: RGXMG
  * @Description: 获取配置信息
  */
@@ -19,7 +19,7 @@ const defaultConfig: IConfig = parseConfig(
 );
 
 const packJsonPath = path.join(process.cwd(), "./package.json");
-const localPackagedPath = path.join(process.cwd(), "./packaged.json");
+let localPackagedPath = path.join(process.cwd(), "./packaged.json");
 
 /**
  * 解析config
@@ -56,6 +56,8 @@ function createConfig(absolutePath: string = localPackagedPath, packagejsonAbsol
     console.log(chalk.red("packaged error: failed to load package.json file, please check this file!"));
     throw new Error(e.message);
   }
+  // 覆盖重写
+  localPackagedPath = absolutePath;
   const nodeEnv = process.env.NODE_ENV;
   let config: IConfig = {
     ...defaultConfig,
