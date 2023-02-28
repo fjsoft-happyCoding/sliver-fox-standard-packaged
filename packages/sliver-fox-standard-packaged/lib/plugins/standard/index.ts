@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-19 00:23:53
- * @LastEditTime: 2022-08-31 16:46:24
+ * @LastEditTime: 2023-02-28 16:46:11
  * @LastEditors: RGXMG
  * @Description:
  */
@@ -36,7 +36,7 @@ export interface IOptions {
   // 是否发布 默认为false
   noPublish?: Boolean;
   // 配置文件路径
-  config?: string
+  config?: string;
 }
 
 interface IPackagedInfo {
@@ -83,6 +83,9 @@ export default class SliverFoxStandardPackaged {
   }
 
   async onBeforeRunHooks() {
+    // 获取最新的packaged msg信息
+    // 获取当前的配置信息以及版本号
+    (this.config as IConfig) = createConfig(this.options.config);
     let success = false;
     // 检查版本号
     success = await this.checkVersion();
@@ -140,9 +143,6 @@ export default class SliverFoxStandardPackaged {
   }
 
   initial() {
-    // 获取最新的packaged msg信息
-    // 获取当前的配置信息以及版本号
-    (this.config as IConfig) = createConfig(this.options.config);
     // 储存打包后相关信息
     (this.packagedInfo as IPackagedInfo) = {
       // 已打包相关资源存放的路径

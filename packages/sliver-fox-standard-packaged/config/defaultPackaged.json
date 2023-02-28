@@ -61,6 +61,7 @@
     // 可引用下列字段：
     // packagedZipFilename: 打包后的zip文件的名称
     // changelogMsg: 打包时书写的changelog msg
-    "console": "北京{packagedZipFilename}版本文件已上传!！\r\n修改如下(详细内容请查阅压缩包内文档描述)：\r\n{changelogMsg}"
+    "console-development": "北京{packagedZipFilename}版本文件已上传!！\r\n修改如下(详细内容请查阅压缩包内文档描述)：\r\n{changelogMsg}",
+    "console-production": "北京{packagedZipFilename}版本文件已上传!！\r\n修改如下(详细内容请查阅压缩包内文档描述)：\r\n{changelogMsg}"
   }
 }

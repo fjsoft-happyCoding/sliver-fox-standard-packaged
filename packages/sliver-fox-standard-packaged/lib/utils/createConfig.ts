@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-15 17:19:47
- * @LastEditTime: 2022-09-01 15:04:40
+ * @LastEditTime: 2023-02-28 15:32:05
  * @LastEditors: RGXMG
  * @Description: 获取配置信息
  */
@@ -82,6 +82,9 @@ function createConfig(absolutePath: string = localPackagedPath, packagejsonAbsol
     config[`format-${process.env.NODE_ENV || "development"}`],
     config
   );
+
+  // console
+  config.doneConfig.console = config[`console-${process.env.NODE_ENV || "development"}`] || config.doneConfig.console;
   return config;
 }
 

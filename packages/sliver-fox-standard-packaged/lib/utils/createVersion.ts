@@ -2,7 +2,7 @@
  * @Author: RGXMG
  * @Email: rgxmg@foxmail.com
  * @Date: 2021-12-15 17:16:09
- * @LastEditTime: 2022-01-04 21:03:29
+ * @LastEditTime: 2023-02-28 17:16:20
  * @LastEditors: RGXMG
  * @Description: 获取版本
  */
@@ -23,7 +23,7 @@ function getPackageJsonVersion() {
  * @param version
  */
 function validateVersion(version: string) {
-  return /^\d+\.\d+\.\d+$/.test(version);
+  return /^\d+\.\d+\.\d+(-.+)*$/.test(version);
 }
 
 /**
@@ -55,7 +55,7 @@ async function createNewVersion(version: string = getPackageJsonVersion()) {
   });
   if (!validateVersion(answer.question)) {
     console.log(
-      chalk.red(`版本号：${answer.question} 不合法，请输入 x.x.x 格式的版本号`)
+      chalk.red(`版本号：${answer.question} 不合法，请输入符合前端规范格式的版本号`)
     );
     answer.question = await createNewVersion(version);
   }
